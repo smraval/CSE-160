@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Assignment 2</title>
+          <div>
+            Shalini Raval - smraval@ucsc.edu
+        </div>
+    </head>
+
+    <body onload="main()">
+        <div style="display: flex; gap: 20px;">
+            <canvas id="webgl" width="400" height="400">
+                Please use the browser supporting "canvas".
+            </canvas>
+            <img id="referenceImage" src="myDrawing.png" alt="Reference Drawing" style="display: none; height: 400px; border: 2px solid #ccc;">
+        </div>
+
+        <p>
+            <button type="button" id="clearButton">Clear Canvas</button>
+            <button type="button" id="drawPictureButton"> Draw my picture</button>
+            <button type="button" id="toggleReferenceButton">See Reference Image</button>
+        </p>
+        <p>
+            <b>Drawing Mode:</b><br>
+            <button type="button" id="squareButton">Squares</button>
+            <button type="button" id="triangleButton">Triangles</button>
+            <button type="button" id="circleButton">Circles</button>
+            <button type="button" id="eraserButton">Eraser</button>
+        </p>
+        <p>
+            <b>Shape Color:</b><br>
+            Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlider">
+            Green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlider">
+            Blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlider">
+        </p>
+         <p>
+            Shape Size: <input type="range" min="5" max="40" value="10" class="slider" id="sizeSlider">
+            (Circles) Segment Count: <input type="range" min="3" max="50" value="30" class="slider" id="segmentSlider">
+        </p>
+
+        <p>
+            target practice! click the "targets" as they appear on the screen
+            <button type="button" id="playGameButton">Play Game</button>
+            <button type="button" id="stopGameButton">Stop Game</button>
+            <span id="gameScore" style="margin-left: 20px; font-weight: bold; font-size: 16px;">Score: 0</span>
+        </p>
+
+
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="asgn1.js"></script>
+        <script src="drawing.js"></script>
+        <script src="target.js"></script>
+    </body>
+</html>
