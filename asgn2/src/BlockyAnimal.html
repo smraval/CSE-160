@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Asgn2: Blocky Animal</title>
+        <link rel="stylesheet" href="BlockyAnimal.css">
+    </head>
+
+    <body onload="main()">
+        <div class="header">
+            <div>✧ ೃ༄Blocky Crab ⋆‧*ੈ✩𓏲</div>
+            by shalini raval - smraval@ucsc.edu
+        </div>
+        <div class="container">
+            <div class="canvas-container">
+                <canvas id="webgl" width="400" height="400">
+                    Please use the browser supporting "canvas".
+                </canvas>
+                <div class="canvas-footer">
+                    <div id="performance">
+                        FPS: <span id="fpsValue">0</span>
+                    </div>
+                    <button id="animationToggle">Turn Animation On</button>
+                </div>
+            </div>
+            
+            <div class="controls-container">
+                <div class="control-group">
+                    <label><b>Camera Angle:</b> <span id="cameraAngleValue">0</span>°</label><br>
+                    <input type="range" min="0" max="360" value="0" id="globalRotationSlider">
+                </div>
+                <hr>
+                <strong>Left Claw</strong>
+                <div class="control-group">
+                    <label>Shoulder: <span id="clawShoulderValue">0</span>°</label><br>
+                    <input type="range" min="-90" max="90" value="0" id="clawShoulderSlider">
+                </div>
+                <div class="control-group">
+                    <label>Arm: <span id="clawElbowValue">0</span>°</label><br>
+                    <input type="range" min="-90" max="90" value="0" id="clawElbowSlider">
+                </div>
+                <hr>
+                <strong>Right Claw</strong>
+                <div class="control-group">
+                    <label>Shoulder: <span id="clawShoulderRValue">0</span>°</label><br>
+                    <input type="range" min="-90" max="90" value="0" id="clawShoulderRSlider">
+                </div>
+                <div class="control-group">
+                    <label>Arm: <span id="clawElbowRValue">0</span>°</label><br>
+                    <input type="range" min="-90" max="90" value="0" id="clawElbowRSlider">
+                </div>
+                <div class="control-group">
+                    <label>Pincer: <span id="clawPincerRValue">0</span>°</label><br>
+                    <input type="range" min="-30" max="30" value="0" id="clawPincerRSlider">
+                </div>
+                <hr>
+                <strong>Front Left Leg</strong>
+                <div class="control-group">
+                    <label>Upper Leg: <span id="legHipValue">0</span>°</label><br>
+                    <input type="range" min="-180" max="180" value="0" id="legHipSlider">
+                </div>
+                <div class="control-group">
+                    <label>Lower Leg: <span id="legKneeValue">0</span>°</label><br>
+                    <input type="range" min="-180" max="180" value="0" id="legKneeSlider">
+                </div>
+            </div>
+        </div>
+
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="BlockyAnimal.js"></script>
+        <script src="Circle.js"></script>
+        <script src="Points.js"></script>
+        <script src="Triangle.js"></script>
+        <script src="Cube.js"></script>
+    </body>
+</html>
