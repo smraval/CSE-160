@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>asgn3: blocky world</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #fffcfc;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .canvas-container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #webgl {
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: block;
+      background-color: #ecf5ff;
+    }
+
+    .canvas-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #performance {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .controls-container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      max-width: 350px;
+    }
+
+    .control-group {
+      margin-bottom: 10px;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #FDDCE2;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover { background-color: #fcc9d1; }
+    button:active { background-color: #fbb6c0; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 10px 0;
+    }
+
+    strong {
+      display: block;
+      margin: 5px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .key {
+      display: inline-block;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-bottom: 3px solid #aaa;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-weight: bold;
+      font-size: 12px;
+      color: #333;
+      min-width: 28px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body onload="main()">
+
+  <div class="header">
+    <div><b>blocky world 𐦂𖨆𐀪𖠋</b></div>
+    by shalini raval - smraval@ucsc.edu
+    <div> see readme.md for more info and comments!</div>
+  </div>
+
+  <div class="container">
+
+    <div class="canvas-container">
+      <canvas id="webgl" width="600" height="600">
+        Please use a browser that supports the canvas element.
+      </canvas>
+      <div class="canvas-footer">
+        <div id="performance">FPS: <span id="fpsValue">0</span></div>
+        <div id="crabDisplay" style="font-size:13px;color:#555;">
+          🦀 Crabs found: <span id="crabCount">0 / 5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-container">
+
+      <strong>Movement Controls</strong>
+      <div class="control-group">
+        <div class="key-row"><span class="key">W</span> Move forward</div>
+        <div class="key-row"><span class="key">S</span> Move backward</div>
+        <div class="key-row"><span class="key">A</span> Move left</div>
+        <div class="key-row"><span class="key">D</span> Move right</div>
+      </div>
+
+      <hr>
+      <strong>Camera Controls</strong>
+      <div class="control-group">
+        <div class="key-row"><span class="key">Q</span> Turn left</div>
+        <div class="key-row"><span class="key">E</span> Turn right</div>
+        <div class="key-row"><span class="key">← →</span> Turn left / right</div>
+        <div class="key-row" style="color:#888;font-size:12px;">𖦹 Drag to look around</div>
+        <div class="key-row" style="margin-top:6px;">
+          <input type="checkbox" id="neutralCamera" style="margin-right:6px;">
+          <label for="neutralCamera" style="font-size:13px;cursor:pointer;">Neutral camera angle</label>
+        </div>
+      </div>
+
+      <hr>
+      <strong>Build Controls</strong>
+      <div class="control-group">
+        <div class="key-row" style="color:#555;font-size:12px;"> 𖦹 Left click to place blocks</div>
+        <div class="key-row" style="color:#555;font-size:12px;"> 𖦹 Right click to remove blocks</div>
+      </div>
+
+      <hr>
+      <strong>GAME: Find the Crabs 🦀</strong>
+      <div class="control-group">
+        <div class="key-row" style="color:#555;font-size:12px;">Find a crab and walk within 3 units of it!</div>
+        <div class="key-row" style="color:#555;font-size:12px;"> 𖦹 Shift + click to catch it!</div>
+        <div class="key-row" style="color:#888;font-size:12px;">5 hidden crabs across the world</div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <script src="../lib/webgl-utils.js"></script>
+  <script src="../lib/webgl-debug.js"></script>
+  <script src="../lib/cuon-utils.js"></script>
+  <script src="../lib/cuon-matrix-cse160.js"></script>
+
+  <script src="Camera.js"></script>
+  <script src="Triangle.js"></script>
+  <script src="Cube.js"></script>
+  <script src="Crab.js"></script>
+  <script src="World.js"></script>
+
+</body>
+</html>
