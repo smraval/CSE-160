@@ -508,8 +508,8 @@ function main() {
 
   initPersistentBuffers();
   camera = new Camera();
-  camera.eye = new Vector3([5, 1.5, 5]);
-  camera.at  = new Vector3([5, 1.5, 6]);
+  camera.eye = new Vector3([15, 2, 6]);
+  camera.at  = new Vector3([15, 1, 15]);
   camera.updateViewMatrix();
 
   document.addEventListener('keydown', function(e) {
