@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>asgn4: lighting</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #fffcfc;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .canvas-container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #webgl {
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: block;
+      background-color: #ecf5ff;
+    }
+
+    .canvas-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #performance {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .controls-container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      max-width: 350px;
+    }
+
+    .control-group {
+      margin-bottom: 10px;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #FDDCE2;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover { background-color: #fcc9d1; }
+    button:active { background-color: #fbb6c0; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 10px 0;
+    }
+
+    strong {
+      display: block;
+      margin: 5px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .key {
+      display: inline-block;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-bottom: 3px solid #aaa;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-weight: bold;
+      font-size: 12px;
+      color: #333;
+      min-width: 28px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body onload="main()">
+
+  <div class="header">
+    <div><b> lighting ⋆｡° 𖣤 ˎˊ˗ </b></div>
+    by shalini raval - smraval@ucsc.edu
+  </div>
+
+  <div class="container">
+
+    <div class="canvas-container">
+      <canvas id="webgl" width="600" height="600">
+        Please use a browser that supports the canvas element.
+      </canvas>
+      <div class="canvas-footer">
+        <div id="performance">FPS: <span id="fpsValue">0</span></div>
+      </div>
+    </div>
+
+    <div class="controls-container">
+
+      <strong>Movement Controls 𐦂</strong>
+      <div class="control-group">
+        <div class="key-row"><span class="key">W</span> Move forward</div>
+        <div class="key-row"><span class="key">S</span> Move backward</div>
+        <div class="key-row"><span class="key">A</span> Move left</div>
+        <div class="key-row"><span class="key">D</span> Move right</div>
+      </div>
+
+      <hr>
+      <strong>Camera Controls [ ◉¯] </strong>
+      <div class="control-group">
+        <div class="key-row"><span class="key">Q</span> Turn left</div>
+        <div class="key-row"><span class="key">E</span> Turn right</div>
+        <div class="key-row"><span class="key">← →</span> Turn left / right</div>
+        <div class="key-row" style="color:#888;font-size:12px;">𖦹 Drag to look around</div>
+      </div>
+
+      <hr>
+      <strong>Lighting Controls ☼ </strong>
+      <div class="control-group">
+        <label style="font-size:13px;">Light orbit angle</label>
+        <input type="range" id="lightSlider" min="0" max="360" value="0" step="0.5" style="width:100%;margin-bottom:8px;">
+        <label style="font-size:13px;">Light color</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+          <input type="color" id="lightColorPicker" value="#ffffff" style="flex:1;height:32px;cursor:pointer;border:none;border-radius:8px;">
+          <button id="btnResetColor" style="white-space:nowrap;padding:6px 12px;font-size:12px;">Reset</button>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button id="btnLighting" style="flex:1;padding:8px 4px;font-size:12px;">Light 1: ON</button>
+          <button id="btnSpot" style="flex:1;padding:8px 4px;font-size:12px;">Spotlight: ON</button>
+          <button id="btnNormalViz" style="flex:1;padding:8px 4px;font-size:12px;">Normals: OFF</button>
+        </div>
+      </div>
+
+      <hr>
+      <div> see readme.md for more info and comments!</div>
+    </div>
+  </div>
+
+  <script src="../lib/webgl-utils.js"></script>
+  <script src="../lib/webgl-debug.js"></script>
+  <script src="../lib/cuon-utils.js"></script>
+  <script src="../lib/cuon-matrix-cse160.js"></script>
+
+  <script src="Camera.js"></script>
+  <script src="Triangle.js"></script>
+  <script src="Cube.js"></script>
+  <script src="Sphere.js"></script>
+  <script src="Crab.js"></script>
+  <script src="Model.js"></script>
+  <script src="World.js"></script>
+
+</body>
+</html>
